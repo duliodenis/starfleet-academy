@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Starfleet Academy — Curriculum & Required Reading</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23050811'/><path d='M16 4L28 28L16 22L4 28Z' fill='%23FF9B54'/><path d='M16 4L28 28L16 22Z' fill='%23F6D365' opacity='0.85'/><ellipse cx='16' cy='17' rx='3' ry='3.5' fill='%23050811' opacity='0.5'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050811;
+      --surface: rgba(8, 15, 40, 0.92);
+      --surface-2: rgba(14, 24, 62, 0.85);
+      --surface-3: rgba(20, 32, 78, 0.70);
+      --border: rgba(100, 150, 255, 0.10);
+      --border-mid: rgba(100, 150, 255, 0.20);
+      --text: #E8EEFF;
+      --muted: #7A90C0;
+      --dim: #3A4A70;
+      --orange: #FF9B54;
+      --gold: #F6D365;
+      --blue: #7DD3FC;
+      --purple: #C084FC;
+      --teal: #2DD4BF;
+      --red: #F87171;
+      --green: #34D399;
+      --tos: #F6D365;
+      --tng: #60A5FA;
+      --ds9: #C084FC;
+      --voy: #F87171;
+      --ent: #34D399;
+      --year1: #34D399;
+      --year2: #60A5FA;
+      --year3: #C084FC;
+      --year4: #F87171;
+      --shadow: 0 24px 64px rgba(0,0,0,.55);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(ellipse at 80% 0%, rgba(125,211,252,.07) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 100%, rgba(192,132,252,.07) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(255,155,84,.04) 0%, transparent 60%),
+        linear-gradient(180deg, #040810 0%, #060b18 50%, #080c1e 100%);
+      color: var(--text);
+      letter-spacing: 0.01em;
+      overflow-x: hidden;
+    }
+
+    /* ── Stars ── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .stars::before, .stars::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    .stars::before {
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.90) 50%, transparent 51%),
+        radial-gradient(1px 1px at 28% 42%, rgba(255,255,255,.75) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 44% 8%, rgba(255,255,255,.85) 50%, transparent 51%),
+        radial-gradient(1px 1px at 60% 33%, rgba(255,255,255,.70) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 76% 62%, rgba(255,255,255,.80) 50%, transparent 51%),
+        radial-gradient(1px 1px at 89% 14%, rgba(255,255,255,.70) 50%, transparent 51%),
+        radial-gradient(1px 1px at 35% 78%, rgba(255,255,255,.65) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 55% 55%, rgba(255,255,255,.75) 50%, transparent 51%),
+        radial-gradient(1px 1px at 8% 88%, rgba(255,255,255,.60) 50%, transparent 51%),
+        radial-gradient(1px 1px at 92% 46%, rgba(255,255,255,.65) 50%, transparent 51%),
+        radial-gradient(1px 1px at 18% 55%, rgba(200,220,255,.55) 50%, transparent 51%),
+        radial-gradient(1px 1px at 72% 88%, rgba(200,220,255,.50) 50%, transparent 51%);
+      opacity: .55;
+    }
+    .stars::after {
+      background-image:
+        radial-gradient(1px 1px at 22% 66%, rgba(255,255,255,.50) 50%, transparent 51%),
+        radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.45) 50%, transparent 51%),
+        radial-gradient(1px 1px at 66% 74%, rgba(255,255,255,.50) 50%, transparent 51%),
+        radial-gradient(1px 1px at 84% 30%, rgba(255,255,255,.45) 50%, transparent 51%),
+        radial-gradient(1px 1px at 38% 92%, rgba(255,255,255,.40) 50%, transparent 51%),
+        radial-gradient(1px 1px at 6% 38%, rgba(255,255,255,.45) 50%, transparent 51%),
+        radial-gradient(1px 1px at 94% 76%, rgba(255,255,255,.40) 50%, transparent 51%);
+      opacity: .30;
+      transform: scale(1.6);
+    }
+
+    /* ── Layout ── */
+    .shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border-mid);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lcars-header {
+      background: linear-gradient(90deg, var(--orange) 0%, var(--gold) 60%, rgba(246,211,101,.4) 100%);
+      padding: 0;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      min-height: 72px;
+    }
+
+    .delta-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.30);
+      padding: 14px;
+    }
+
+    .delta {
+      width: 32px;
+      height: 40px;
+      filter: drop-shadow(0 0 8px rgba(255,200,100,.8));
+    }
+
+    .lcars-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 16px;
+      gap: 2px;
+    }
+
+    .lcars-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,.65);
+    }
+
+    .lcars-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(0,0,0,.85);
+      line-height: 1.2;
+    }
+
+    .sidebar-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .sidebar h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-desc {
+      color: var(--muted);
+      font-size: .875rem;
+      line-height: 1.55;
+    }
+
+    /* ── Stat panel ── */
+    .panel {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .stat {
+      background: rgba(0,0,0,.22);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      transition: border-color .2s;
+    }
+    .stat:hover { border-color: var(--border-mid); }
+
+    .stat .k {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat .v {
+      color: var(--muted);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── Series legend ── */
+    .series-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .series-dot {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .series-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Canon note ── */
+    .canon-note {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.6;
+      border-left: 2px solid rgba(125,211,252,.25);
+      padding-left: 10px;
+    }
+
+    /* ── Main area ── */
+    .main {
+      background: var(--surface);
+      border: 1px solid var(--border-mid);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      padding: 14px;
+      min-height: 0;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .topbar-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-row {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+
+    .filter-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 8px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: 0 2px;
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--border-mid);
+      margin: 0 6px;
+      flex-shrink: 0;
+    }
+
+    .filter-pill {
+      font-family: 'Orbitron', monospace;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      border: 1px solid var(--border-mid);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      padding: 5px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--pill-border, var(--border-mid));
+      color: var(--pill-color, var(--text));
+      background: var(--pill-bg, rgba(255,255,255,.07));
+    }
+    .filter-pill.active {
+      border-color: var(--pill-border, var(--border-mid));
+      color: var(--pill-color, var(--text));
+      background: var(--pill-bg-active, rgba(255,255,255,.12));
+    }
+
+    .clear-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      border: 1px solid rgba(248,113,113,.30);
+      background: rgba(248,113,113,.06);
+      color: #F87171;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-left: auto;
+      transition: all .15s ease;
+    }
+    .clear-btn:hover { background: rgba(248,113,113,.14); border-color: rgba(248,113,113,.50); }
+    .clear-btn:disabled { opacity: .30; cursor: default; pointer-events: none; }
+
+    .toggle, .tab {
+      font-family: 'Orbitron', monospace;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      border: 1px solid var(--border-mid);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .18s ease;
+      white-space: nowrap;
+    }
+    .toggle:hover, .tab:hover {
+      border-color: rgba(246,211,101,.35);
+      color: var(--gold);
+      background: rgba(246,211,101,.06);
+    }
+    .toggle.active, .tab.active {
+      background: linear-gradient(90deg, rgba(255,155,84,.90), rgba(246,211,101,.90));
+      color: #1a0f04;
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    select {
+      font-family: 'Inter', sans-serif;
+      font-size: .82rem;
+      background: rgba(5,10,22,.80);
+      color: var(--text);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color .18s;
+    }
+    select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(125,211,252,.12); }
+    select option { background: #0a1030; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, rgba(255,155,84,.08) 0%, rgba(125,211,252,.06) 50%, rgba(192,132,252,.06) 100%);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .hero h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: .875rem;
+      line-height: 1.55;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .meta-box {
+      background: rgba(0,0,0,.28);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      min-width: 130px;
+    }
+    .meta-box .label {
+      font-family: 'Orbitron', monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: .20em;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+    .meta-box .value {
+      font-size: .82rem;
+      color: var(--text);
+    }
+
+    /* ── Content grid ── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .results, .detail {
+      background: rgba(0,0,0,.18);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: auto;
+      min-height: 0;
+    }
+
+    /* ── Table ── */
+    .table-wrap { overflow: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: rgba(6, 12, 30, 0.96);
+      backdrop-filter: blur(8px);
+      font-family: 'Orbitron', monospace;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(246,211,101,.15);
+      z-index: 2;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+      cursor: pointer;
+    }
+    tbody tr:hover td { background: rgba(255,255,255,.025); }
+    tbody tr.selected td { background: rgba(125,211,252,.06); }
+    tbody tr.selected { border-bottom-color: rgba(125,211,252,.20); }
+
+    td {
+      padding: 11px 14px;
+      font-size: .875rem;
+      vertical-align: middle;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .row-button {
+      cursor: pointer;
+      color: var(--blue);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .row-button:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ── Chips / badges ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: .73rem;
+      font-weight: 500;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .chip.explicit {
+      background: rgba(246,211,101,.12);
+      border-color: rgba(246,211,101,.30);
+      color: var(--gold);
+    }
+    .chip.implied {
+      background: rgba(125,211,252,.08);
+      border-color: rgba(125,211,252,.22);
+      color: var(--blue);
+    }
+
+    .series-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .year-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    /* ── Detail pane ── */
+    .detail { padding: 16px; }
+
+    .detail-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .detail-empty svg { opacity: .25; }
+
+    .detail-empty p {
+      color: var(--muted);
+      font-size: .85rem;
+      max-width: 200px;
+      line-height: 1.5;
+    }
+
+    .detail-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-mid);
+    }
+
+    .detail-section {
+      margin-bottom: 14px;
+    }
+
+    .detail-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 8px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .detail-value {
+      font-size: .84rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .detail-value.muted { color: var(--muted); }
+
+    .detail-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
+    }
+
+    .detail-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .detail-list li {
+      font-size: .82rem;
+      color: var(--muted);
+      padding: 8px 10px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      line-height: 1.4;
+    }
+
+    .detail-list li strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+    /* ── Elective badge ── */
+    .elective-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: .60rem;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.13);
+      color: var(--muted);
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      color: var(--muted);
+      padding: 40px;
+      text-align: center;
+      font-size: .875rem;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(100,140,255,.2); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100,140,255,.35); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1200px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-meta { flex-wrap: wrap; }
+    }
+    @media (max-width: 1050px) {
+      .shell { grid-template-columns: 1fr; }
+      .content-grid { grid-template-columns: 1fr; }
+      table { min-width: 640px; }
+    }
+    @media (max-width: 700px) {
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <div class="shell">
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar">
+      <div class="lcars-header">
+        <div class="delta-wrap">
+          <svg class="delta" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L30 40L16 31L2 40Z" fill="rgba(255,155,84,0.20)" stroke="#FF9B54" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M16 2L30 40L16 31Z" fill="rgba(246,211,101,0.30)"/>
+            <ellipse cx="16" cy="19" rx="4" ry="4.5" fill="rgba(255,200,100,0.25)" stroke="rgba(255,200,100,0.60)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="lcars-title">
+          <div class="lcars-label">Starfleet Command</div>
+          <div class="lcars-name">Academy Archive</div>
+        </div>
+      </div>
+
+      <div class="sidebar-body">
+        <div>
+          <h1>Curriculum &amp; Required Reading</h1>
+          <p class="sidebar-desc" style="margin-top:8px;">Canonical reading materials identified across Starfleet service records, cross-referenced with the four-year instructional curriculum.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Operational Summary</div>
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="k" id="statVisible">0</div>
+              <div class="v">Visible</div>
+            </div>
+            <div class="stat">
+              <div class="k" id="statExplicit" style="color:var(--gold)">0</div>
+              <div class="v">Explicit</div>
+            </div>
+            <div class="stat">
+              <div class="k" id="statCourses" style="color:var(--purple)">0</div>
+              <div class="v">Courses</div>
+            </div>
+            <div class="stat">
+              <div class="k" id="statSeries" style="color:var(--green)">0</div>
+              <div class="v">Series</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Series Reference</div>
+          <div class="series-legend">
+            <div class="series-dot"><span class="series-pip" style="background:var(--tos)"></span>TOS — Original Series</div>
+            <div class="series-dot"><span class="series-pip" style="background:var(--tng)"></span>TNG — Next Generation</div>
+            <div class="series-dot"><span class="series-pip" style="background:var(--ds9)"></span>DS9 — Deep Space Nine</div>
+            <div class="series-dot"><span class="series-pip" style="background:var(--voy)"></span>VOY — Voyager</div>
+            <div class="series-dot"><span class="series-pip" style="background:var(--ent)"></span>ENT — Enterprise</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Departments</div>
+          <div class="series-legend">
+            <div class="series-dot"><span class="series-pip" style="background:#F87171"></span>Command</div>
+            <div class="series-dot"><span class="series-pip" style="background:#F6D365"></span>Engineering</div>
+            <div class="series-dot"><span class="series-pip" style="background:#60A5FA"></span>Sciences</div>
+            <div class="series-dot"><span class="series-pip" style="background:#C084FC"></span>History &amp; Law</div>
+            <div class="series-dot"><span class="series-pip" style="background:#2DD4BF"></span>Operations</div>
+          </div>
+        </div>
+
+        <p class="canon-note">Explicit lines such as "required reading at the Academy" are preserved as canon. The four-year curriculum is a structured reconstruction built from those references plus the broader instructional material implied across the shows.</p>
+      </div>
+    </aside>
+
+    <!-- ── Main ── -->
+    <main class="main">
+      <!-- Top command bar -->
+      <div class="topbar" id="topFilters"></div>
+
+      <!-- Hero -->
+      <section class="hero">
+        <div>
+          <h3>Academy Curriculum Overview</h3>
+          <p>Switch views to browse required reading or the full four-year course schedule. Filter by series, year, or course. Select any row to inspect the full record detail.</p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-box">
+            <div class="label">Display Mode</div>
+            <div class="value" id="heroMode">Required Reading</div>
+          </div>
+          <div class="meta-box">
+            <div class="label">Canon Scope</div>
+            <div class="value">TOS · TNG · DS9 · VOY · ENT</div>
+          </div>
+          <div class="meta-box">
+            <div class="label">Selected Record</div>
+            <div class="value" id="heroSelection">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class="content-grid">
+        <section class="results">
+          <div class="table-wrap" id="tableMount"></div>
+        </section>
+        <aside class="detail" id="detailPane"></aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /* ── Series colors ── */
+    const SERIES_COLOR = {
+      TOS: { bg: 'rgba(246,211,101,.10)', bgActive: 'rgba(246,211,101,.22)', border: 'rgba(246,211,101,.38)', text: '#F6D365' },
+      TNG: { bg: 'rgba(96,165,250,.10)',  bgActive: 'rgba(96,165,250,.22)',  border: 'rgba(96,165,250,.38)',  text: '#60A5FA' },
+      DS9: { bg: 'rgba(192,132,252,.10)', bgActive: 'rgba(192,132,252,.22)', border: 'rgba(192,132,252,.38)', text: '#C084FC' },
+      VOY: { bg: 'rgba(248,113,113,.10)', bgActive: 'rgba(248,113,113,.22)', border: 'rgba(248,113,113,.38)', text: '#F87171' },
+      ENT: { bg: 'rgba(52,211,153,.10)',  bgActive: 'rgba(52,211,153,.22)',  border: 'rgba(52,211,153,.38)',  text: '#34D399' }
+    };
+
+    const YEAR_COLOR = {
+      1: { bg: 'rgba(52,211,153,.10)',  bgActive: 'rgba(52,211,153,.22)',  border: 'rgba(52,211,153,.32)',  text: '#34D399' },
+      2: { bg: 'rgba(96,165,250,.10)',  bgActive: 'rgba(96,165,250,.22)',  border: 'rgba(96,165,250,.32)',  text: '#60A5FA' },
+      3: { bg: 'rgba(192,132,252,.10)', bgActive: 'rgba(192,132,252,.22)', border: 'rgba(192,132,252,.32)', text: '#C084FC' },
+      4: { bg: 'rgba(248,113,113,.10)', bgActive: 'rgba(248,113,113,.22)', border: 'rgba(248,113,113,.32)', text: '#F87171' },
+      5: { bg: 'rgba(251,191,36,.10)',  bgActive: 'rgba(251,191,36,.22)',  border: 'rgba(251,191,36,.32)',  text: '#FBB724' }
+    };
+
+    const DEPT_COLOR = {
+      'Command':       { bg: 'rgba(248,113,113,.10)', bgActive: 'rgba(248,113,113,.22)', border: 'rgba(248,113,113,.38)', text: '#F87171' },
+      'Engineering':   { bg: 'rgba(246,211,101,.10)', bgActive: 'rgba(246,211,101,.22)', border: 'rgba(246,211,101,.38)', text: '#F6D365' },
+      'Sciences':      { bg: 'rgba(96,165,250,.10)',  bgActive: 'rgba(96,165,250,.22)',  border: 'rgba(96,165,250,.38)',  text: '#60A5FA' },
+      'History & Law': { bg: 'rgba(192,132,252,.10)', bgActive: 'rgba(192,132,252,.22)', border: 'rgba(192,132,252,.38)', text: '#C084FC' },
+      'Operations':    { bg: 'rgba(45,212,191,.10)',  bgActive: 'rgba(45,212,191,.22)',  border: 'rgba(45,212,191,.38)',  text: '#2DD4BF' }
+    };
+
+    function seriesBadge(s) {
+      const c = SERIES_COLOR[s] || {};
+      return `<span class="series-badge" style="background:${c.bg};border-color:${c.border};color:${c.text}">${s}</span>`;
+    }
+
+    function yearBadge(y) {
+      const c = YEAR_COLOR[y] || {};
+      const label = y === 5 ? 'Master' : `Year ${y}`;
+      return `<span class="year-badge" style="background:${c.bg};border-color:${c.border};color:${c.text}">${label}</span>`;
+    }
+
+    function deptBadge(d) {
+      const c = DEPT_COLOR[d] || {};
+      return `<span class="series-badge" style="background:${c.bg};border-color:${c.border};color:${c.text}">${d}</span>`;
+    }
+
+    /* ── Data ── */
+    const requiredReading = [
+      { id: 'rr1',  title: 'The Art of War', type: 'Book', evidence: 'Explicit required reading', explicit: true, series: 'TNG', season: 1, episode: 5,  episodeTitle: 'The Last Outpost',          course: 'Strategic Warfare & Tactical Doctrine',  courseYear: 2, description: 'Ancient military treatise by Sun Tzu used to teach strategy, deception, force concentration, and adversary analysis.', why: 'Directly identified as required reading at Starfleet Academy and fits a foundational tactical doctrine course.', quoteNote: 'On-screen reference identifies The Art of War as Academy required reading.' },
+      { id: 'rr2',  title: 'Battle of Axanar / Garth of Izar Campaign Studies', type: 'Historical case study', evidence: 'Explicit required reading', explicit: true, series: 'TOS', season: 3, episode: 16, episodeTitle: 'Whom Gods Destroy',         course: 'Starfleet Command History',              courseYear: 2, description: 'Operational and leadership analysis of Garth of Izar, especially the Axanar campaign, treated as cadet study material.', why: 'Kirk explicitly states Axanar was required reading at the Academy, making it a cornerstone command-history case.', quoteNote: 'Kirk says Axanar is still required reading at the Academy.' },
+      { id: 'rr3',  title: 'Judge Aaron Satie Judicial Decisions', type: 'Legal rulings / case law', evidence: 'Explicit required reading', explicit: true, series: 'TNG', season: 4, episode: 21, episodeTitle: 'The Drumhead',                  course: 'Federation Law & Ethics',                courseYear: 3, description: 'Seminal judicial decisions associated with Aaron Satie, used to train cadets in due process, evidence, and civil liberty boundaries.', why: 'Picard explicitly says Satie\'s judgments were required reading at the Academy.', quoteNote: 'Picard identifies Satie\'s judgments as required reading.' },
+      { id: 'rr4',  title: 'Roger Korby Orion Ruins Translations', type: 'Scientific translations', evidence: 'Explicit required reading', explicit: true, series: 'TOS', season: 1, episode: 10, episodeTitle: 'What Are Little Girls Made Of?', course: 'Exoarchaeology & Ancient Civilizations',   courseYear: 3, description: 'Translations of medical and scientific records recovered from the Orion ruins, associated with advanced extinct civilization study.', why: 'Kirk calls Korby\'s Orion-ruins work required reading, making it a natural fit for exoarchaeology.', quoteNote: 'Kirk refers to Korby\'s work as required Academy reading.' },
+      { id: 'rr5',  title: 'The Picard Maneuver', type: 'Textbook tactical doctrine', evidence: 'Implied Academy instruction', explicit: false, series: 'TNG', season: 1, episode: 9,  episodeTitle: 'The Battle',                    course: 'Advanced Starship Tactics',              courseYear: 4, description: 'A tactical maneuver entered into Starfleet instructional texts, used as a model for surprise timing and sensor exploitation.', why: 'Explicitly placed in Starfleet textbooks, though not phrased on screen as required reading.', quoteNote: 'Data notes that Starfleet textbooks refer to it as the Picard Maneuver.' },
+      { id: 'rr6',  title: 'Prime Directive Case Studies', type: 'Doctrine casebook', evidence: 'Implied Academy instruction', explicit: false, series: 'VOY', season: 2, episode: 13, episodeTitle: 'Prototype',                      course: 'Interstellar Ethics & First Contact',     courseYear: 2, description: 'A reconstructed body of cases around General Order 1 used to teach non-interference, moral ambiguity, and command restraint.', why: 'Voyager repeatedly frames Starfleet principles as formal doctrine that officers are expected to know cold.', quoteNote: 'Included as a reasoned curriculum item rather than a direct required-reading quote.' },
+      { id: 'rr7',  title: 'Temporal Prime Directive Briefings', type: 'Policy and scenario packet', evidence: 'Implied Academy instruction', explicit: false, series: 'VOY', season: 3, episode: 8,  episodeTitle: 'Future\'s End, Part II',        course: 'Temporal Mechanics & Ethics',            courseYear: 4, description: 'Training material covering paradox avoidance, timeline contamination, and command responsibility during temporal incidents.', why: 'Later-era officers clearly treat temporal policy as formalized doctrine.', quoteNote: 'Reasoned extrapolation from established Starfleet temporal doctrine.' },
+      { id: 'rr8',  title: 'Surak and Vulcan Philosophical Foundations', type: 'Philosophical texts', evidence: 'Implied Academy instruction', explicit: false, series: 'ENT', season: 4, episode: 7,  episodeTitle: 'The Forge',                     course: 'Interstellar Philosophy & Culture',      courseYear: 1, description: 'Core Vulcan philosophical material useful for understanding logic, discipline, and one of the Federation\'s most influential cultures.', why: 'Enterprise foregrounds the importance of Surak and early Federation cultural literacy.', quoteNote: 'Included as foundational cultural study, not an explicit required-reading line.' },
+      { id: 'rr9',  title: 'Dominion War Command Analyses', type: 'War studies casebook', evidence: 'Implied Academy instruction', explicit: false, series: 'DS9', season: 6, episode: 26, episodeTitle: 'Tears of the Prophets',          course: 'War College Seminar: Coalition Command',  courseYear: 4, description: 'Battle, logistics, alliance, and command analyses derived from the Dominion War period.', why: 'The scale and centrality of the Dominion War make it a near-certain later instructional corpus for command-track cadets.', quoteNote: 'Presented as a probable future Academy reading body rather than a direct line from DS9.' },
+      { id: 'rr10', title: 'Voyager Delta Quadrant Survival Logs', type: 'Exploration logs', evidence: 'Implied Academy instruction', explicit: false, series: 'VOY', season: 1, episode: 1,  episodeTitle: 'Caretaker',                     course: 'Deep Space Exploration & Mission Resilience', courseYear: 3, description: 'Operational logs on survival, diplomacy, resource conservation, and command resilience under extreme isolation.', why: 'Voyager\'s journey would almost certainly become Academy study material for future explorers.', quoteNote: 'A reasoned post-event Academy inclusion based on the educational value of the mission logs.' },
+      { id: 'rr11', title: 'Borg Encounter Tactical Reviews', type: 'Threat analysis dossier', evidence: 'Implied Academy instruction', explicit: false, series: 'TNG', season: 3, episode: 26, episodeTitle: 'The Best of Both Worlds, Part I', course: 'Threat Analysis & Defensive Strategy',    courseYear: 4, description: 'Study packet on Borg adaptation, assimilation strategy, defensive response, and asymmetric threat readiness.', why: 'Borg encounters reshape Starfleet doctrine and are too strategically important not to become study material.', quoteNote: 'Inferred from how decisive Borg knowledge becomes to Starfleet training and readiness.' },
+      { id: 'rr12', title: 'Andorian–Vulcan Crisis Histories', type: 'Interstellar relations case studies', evidence: 'Implied Academy instruction', explicit: false, series: 'ENT', season: 4, episode: 1,  episodeTitle: 'Storm Front, Part I',           course: 'Foundations of Federation History',      courseYear: 1, description: 'Conflict and rapprochement studies exploring the pre-Federation political tensions that shaped early interstellar diplomacy.', why: 'Enterprise-era disputes are ideal foundation material for first-year history and diplomacy instruction.', quoteNote: 'A curriculum extrapolation drawn from the historical importance of these relations.' },
+      { id: 'rr13', title: 'Cochrane Warp Drive Monographs', type: 'Scientific papers', evidence: 'Implied Academy instruction', explicit: false, series: 'ENT', season: 1, episode: 1,  episodeTitle: 'Broken Bow',                    course: 'Foundations of Warp Theory',             courseYear: 1, description: 'Zefram Cochrane\'s foundational papers on warp field geometry, matter/antimatter reaction dynamics, and the subspace interface that makes faster-than-light travel possible.', why: 'Cochrane\'s work is treated throughout the franchise as the bedrock of all warp propulsion knowledge — any Academy curriculum would begin here.', quoteNote: 'Enterprise repeatedly invokes Cochrane\'s papers as the foundation of human warp science.' },
+      { id: 'rr14', title: 'Montgomery Scott Engineering Logs & Problem Analyses', type: 'Engineering case studies', evidence: 'Implied Academy instruction', explicit: false, series: 'TNG', season: 6, episode: 4,  episodeTitle: 'Relics',                        course: 'Advanced Engineering Solutions',          courseYear: 3, description: 'Practical engineering case logs covering improvisational repair, power management under crisis, and field-expedient problem-solving under combat and emergency conditions.', why: 'Scott\'s legendary reputation across Starfleet implies his methods and logs would become standard engineering instruction material.', quoteNote: 'Relics cements Scott\'s status as a foundational Starfleet engineering figure whose methods are still studied generations later.' },
+      { id: 'rr15', title: 'Starfleet Emergency Engineering Protocols', type: 'Technical doctrine', evidence: 'Implied Academy instruction', explicit: false, series: 'TNG', season: 5, episode: 5,  episodeTitle: 'Disaster',                      course: 'Starship Systems Engineering',            courseYear: 1, description: 'Standardized Starfleet procedures for EPS grid reconfiguration, emergency power rerouting, warp core isolation, and crisis repair under combat or catastrophic-damage conditions.', why: 'Officers across every era demonstrate fluency with these protocols, making them foundational Academy instruction material for all tracks.', quoteNote: 'Implied by the consistent field competency expected of all Starfleet personnel in crisis scenarios.' },
+      { id: 'rr16', title: 'Kobayashi Maru Scenario After-Action Reports', type: 'Command simulation records', evidence: 'Implied Academy instruction', explicit: false, series: 'TOS', season: 1, episode: 14, episodeTitle: 'Balance of Terror',             course: 'Kobayashi Maru Command Simulation',       courseYear: 5, description: 'Classified records of cadet performance in the no-win command scenario, used to evaluate judgment, ethical resolve, and decision-making under irresolvable pressure.', why: 'The Kobayashi Maru is established throughout the franchise as the defining Academy command-track assessment — graduate-level study of its methodology is essential for command masters.', quoteNote: 'Kirk\'s legendary reprogramming of the scenario is cited as a defining Academy moment, cementing its role as the ultimate command examination.' },
+      { id: 'rr17', title: 'Federation Charter & Articles of Agreement', type: 'Constitutional documents', evidence: 'Implied Academy instruction', explicit: false, series: 'DS9', season: 4, episode: 12, episodeTitle: 'Paradise Lost',                 course: 'Federation Charter, Treaty Law & Constitutional Practice', courseYear: 5, description: 'The foundational legal texts of the United Federation of Planets — the Articles of Agreement, founding charter, and the constitutional frameworks governing member worlds, Starfleet authority, and civil liberties.', why: 'Officers across the franchise invoke Federation law as binding constitutional authority — graduate-level mastery is essential for legal, diplomatic, and flag-officer roles.', quoteNote: 'The Federation Charter is repeatedly cited as a binding constitutional document in DS9 and TNG legal proceedings.' },
+      { id: 'rr18', title: 'Advanced Subspace Field Dynamics Research', type: 'Scientific research papers', evidence: 'Implied Academy instruction', explicit: false, series: 'TNG', season: 7, episode: 9,  episodeTitle: 'Force of Nature',               course: 'Advanced Warp Field Research & Experimental Propulsion', courseYear: 5, description: 'Post-Cochrane research on subspace field stress at high warp factors, including the theoretical and observed environmental impacts of sustained high-warp travel on the subspace medium.', why: 'Force of Nature establishes that warp field effects on subspace are an active, contested area of Federation scientific research requiring senior engineering expertise.', quoteNote: 'Force of Nature introduces subspace damage from warp fields as a recognized scientific concern, making these papers essential for advanced engineering graduate study.' }
+    ];
+
+    const curriculum = [
+      // ── Year 1 ──
+      { id: 'c1',  year: 1, term: 'Semester 1', dept: 'History & Law', optional: false, course: 'Foundations of Federation History',          series: 'ENT', description: 'Survey of the political, cultural, and exploratory developments that culminated in the Federation. Emphasis on the pre-Federation era and early Starfleet identity.', required: ['Andorian–Vulcan Crisis Histories'], details: 'Introduces cadets to the roots of Starfleet, early coalition-building, and the political context that shaped later doctrine.' },
+      { id: 'c2',  year: 1, term: 'Semester 1', dept: 'History & Law', optional: false, course: 'Interstellar Philosophy & Culture',           series: 'ENT', description: 'Cross-cultural literacy course emphasizing major philosophical systems and value structures across Federation member worlds.', required: ['Surak and Vulcan Philosophical Foundations'], details: 'Builds diplomatic literacy and prepares cadets for service in a pluralistic interstellar environment.' },
+      { id: 'c3',  year: 1, term: 'Semester 2', dept: 'Operations',    optional: false, course: 'Starfleet Core Protocols',                   series: 'TOS', description: 'Introduces command structure, operational procedures, regulations, and officer standards.', required: ['Prime Directive Case Studies'], details: 'A baseline professional course that frames Starfleet as both exploratory and disciplined.' },
+      { id: 'c17', year: 1, term: 'Semester 2', dept: 'Engineering',   optional: false, course: 'Foundations of Warp Theory',                 series: 'ENT', description: 'Introduction to warp field geometry, matter/antimatter reaction principles, and the subspace physics underlying faster-than-light travel.', required: ['Cochrane Warp Drive Monographs'], details: 'The gateway engineering course — establishes the scientific foundation every Starfleet officer needs regardless of track.' },
+      // ── Year 2 ──
+      { id: 'c4',  year: 2, term: 'Semester 1', dept: 'Sciences',      optional: false, course: 'Scientific Method for Deep Space Operations', series: 'TOS', description: 'Cadets learn how to gather evidence, build hypotheses, and operate responsibly around unknown phenomena.', required: ['Roger Korby Orion Ruins Translations'], details: 'Prepares science-track and command-track cadets to reason under uncertainty in the field.' },
+      { id: 'c5',  year: 2, term: 'Semester 1', dept: 'Command',       optional: false, course: 'Strategic Warfare & Tactical Doctrine',      series: 'TNG', description: 'Introduction to strategic thought, deception, initiative, and adversary modeling in space combat.', required: ['The Art of War'], details: 'A classic strategy course built around durable principles that transcend era and technology.' },
+      { id: 'c18', year: 2, term: 'Semester 1', dept: 'Engineering',   optional: false, course: 'Starship Systems Engineering',               series: 'TNG', description: 'Practical survey of starship systems: EPS power grids, life support, impulse drive, computer architecture, and damage control procedures.', required: ['Starfleet Emergency Engineering Protocols'], details: 'Equips all cadets with sufficient technical literacy to operate effectively during shipboard emergencies, regardless of specialization.' },
+      { id: 'c6',  year: 2, term: 'Semester 2', dept: 'Command',       optional: false, course: 'Starfleet Command History',                  series: 'TOS', description: 'Historical command decisions, battle studies, and the role of individual judgment under pressure.', required: ['Battle of Axanar / Garth of Izar Campaign Studies'], details: 'Uses major campaigns to teach operational judgment, command style, and the mythology of Starfleet leadership.' },
+      { id: 'c7',  year: 2, term: 'Semester 2', dept: 'History & Law', optional: false, course: 'Interstellar Ethics & First Contact',        series: 'VOY', description: 'Examines non-interference, power imbalance, and the moral burden of technologically superior contact.', required: ['Prime Directive Case Studies'], details: 'One of the intellectual anchors of the Academy, especially for command, science, and diplomatic cadets.' },
+      { id: 'c19', year: 2, term: 'Semester 2', dept: 'Engineering',   optional: true,  course: 'Propulsion & Power Systems',                 series: 'ENT', description: 'Detailed study of warp core operation, nacelle geometry, plasma injection, and the engineering judgment required to push or protect a drive system under stress.', required: ['Cochrane Warp Drive Monographs'], details: 'Core course for engineering-track cadets; essential depth for any officer who may command a warp-capable vessel.' },
+      // ── Year 3 ──
+      { id: 'c8',  year: 3, term: 'Semester 1', dept: 'Sciences',      optional: false, course: 'Survey of Alien Civilizations',              series: 'TOS', description: 'Comparative study of extinct, emerging, and advanced civilizations through archaeology and records interpretation.', required: ['Roger Korby Orion Ruins Translations'], details: 'A field-facing humanities and science hybrid that prepares cadets for encountering the unknown.' },
+      { id: 'c9',  year: 3, term: 'Semester 1', dept: 'History & Law', optional: false, course: 'Federation Law & Ethics',                    series: 'TNG', description: 'Case-based study of legal procedure, civil liberty, command authority, and evidentiary standards.', required: ['Judge Aaron Satie Judicial Decisions'], details: 'Uses precedent and cautionary legal frameworks to prepare cadets for crises where procedure is under stress.' },
+      { id: 'c10', year: 3, term: 'Semester 1', dept: 'Operations',    optional: false, course: 'Deep Space Exploration & Mission Resilience', series: 'VOY', description: 'Operational survival, diplomacy under isolation, supply discipline, and improvisational command in remote environments.', required: ['Voyager Delta Quadrant Survival Logs'], details: 'Ideal for explorers and future captains serving beyond Federation support infrastructure.' },
+      { id: 'c11', year: 3, term: 'Semester 2', dept: 'Sciences',      optional: true,  course: 'Exoarchaeology & Ancient Civilizations',     series: 'TOS', description: 'A deeper exploration of recovered records, ancient technologies, and extinct societies.', required: ['Roger Korby Orion Ruins Translations'], details: 'Moves from introductory comparative civilization study into advanced interpretation and field problem-solving.' },
+      { id: 'c12', year: 3, term: 'Semester 2', dept: 'Command',       optional: false, course: 'Command Psychology & Crisis Judgment',       series: 'TNG', description: 'How officers reason, fail, recover, and persuade during severe pressure situations.', required: ['Judge Aaron Satie Judicial Decisions', 'Battle of Axanar / Garth of Izar Campaign Studies'], details: 'Blends legal, ethical, and command case material to study the psychology of authority.' },
+      { id: 'c20', year: 3, term: 'Semester 2', dept: 'Engineering',   optional: true,  course: 'Advanced Engineering Solutions',             series: 'TNG', description: 'Case-study-driven course on field-expedient repair, improvisation under resource constraints, and engineering judgment in combat or crisis scenarios.', required: ['Montgomery Scott Engineering Logs & Problem Analyses'], details: 'Develops the adaptive problem-solving mindset that distinguishes exceptional engineers from competent ones.' },
+      // ── Year 4 ──
+      { id: 'c13', year: 4, term: 'Semester 1', dept: 'Command',       optional: true,  course: 'Advanced Starship Tactics',                  series: 'TNG', description: 'High-level tactical maneuvers, sensor exploitation, timing, and asymmetric response planning.', required: ['The Picard Maneuver', 'The Art of War'], details: 'An upper-division tactics course suited for command-track cadets.' },
+      { id: 'c14', year: 4, term: 'Semester 1', dept: 'Command',       optional: true,  course: 'Threat Analysis & Defensive Strategy',       series: 'TNG', description: 'Strategic analysis of adaptive adversaries and catastrophic threat scenarios.', required: ['Borg Encounter Tactical Reviews'], details: 'Examines how Starfleet absorbs shock, updates doctrine, and prepares for existential threats.' },
+      { id: 'c21', year: 4, term: 'Semester 1', dept: 'Engineering',   optional: true,  course: 'Engineering Command & Crisis Management',    series: 'TNG', description: 'Capstone on leading engineering teams under extreme pressure, managing cascading system failures, and communicating technical status to command staff.', required: ['Montgomery Scott Engineering Logs & Problem Analyses', 'Starfleet Emergency Engineering Protocols'], details: 'Bridges engineering expertise and command readiness — prepares senior cadets to serve as chief engineers or technically-grounded commanding officers.' },
+      { id: 'c15', year: 4, term: 'Semester 2', dept: 'Sciences',      optional: true,  course: 'Temporal Mechanics & Ethics',                series: 'VOY', description: 'Advanced seminar on causality, paradoxes, timeline contamination, and the officer\'s duty across temporal incidents.', required: ['Temporal Prime Directive Briefings'], details: 'A specialty course for advanced cadets whose service may intersect with temporal anomalies.' },
+      { id: 'c16', year: 4, term: 'Semester 2', dept: 'Command',       optional: true,  course: 'War College Seminar: Coalition Command',     series: 'DS9', description: 'Late-program capstone on alliance warfare, logistics, sacrifice, and command under existential political pressure.', required: ['Dominion War Command Analyses'], details: 'Functions as a senior seminar for command-track cadets and future staff officers.' },
+      // ── Year 5 — Master Year ──
+      { id: 'c22', year: 5, term: 'Master Seminar', dept: 'Command',       optional: false, course: 'Kobayashi Maru Command Simulation',                          series: 'TOS', description: 'Intensive no-win scenario simulation designed to evaluate command judgment, ethical reasoning, and decision-making under irresolvable pressure.', required: ['Kobayashi Maru Scenario After-Action Reports'], details: 'The defining crucible of command-track graduate study — assesses readiness for independent command.' },
+      { id: 'c23', year: 5, term: 'Master Seminar', dept: 'Command',       optional: true,  course: 'Advanced Fleet Strategy & Coalition Warfare',                 series: 'DS9', description: 'Graduate-level analysis of multi-fleet operations, coalition command structures, and strategic decision-making under existential pressure.', required: ['Dominion War Command Analyses', 'Battle of Axanar / Garth of Izar Campaign Studies'], details: 'Builds on War College Seminar for cadets pursuing senior staff or flag officer tracks.' },
+      { id: 'c24', year: 5, term: 'Master Seminar', dept: 'Engineering',   optional: false, course: 'Advanced Warp Field Research & Experimental Propulsion',      series: 'TNG', description: 'Research-level study of experimental warp field configurations, subspace mechanics, and next-generation propulsion challenges beyond standard Academy coursework.', required: ['Cochrane Warp Drive Monographs', 'Montgomery Scott Engineering Logs & Problem Analyses'], details: 'Graduate engineering capstone — bridges theoretical physics and applied starship engineering research.' },
+      { id: 'c25', year: 5, term: 'Master Seminar', dept: 'Sciences',      optional: false, course: 'Advanced Temporal Mechanics & Multiverse Theory',             series: 'VOY', description: 'Research-level treatment of temporal paradoxes, timeline mechanics, alternate quantum states, and the limits of current Federation temporal science.', required: ['Temporal Prime Directive Briefings', 'Advanced Subspace Field Dynamics Research'], details: 'Reserved for sciences-track graduate students with demonstrated aptitude in advanced physics.' },
+      { id: 'c26', year: 5, term: 'Master Seminar', dept: 'History & Law', optional: false, course: 'Federation Charter, Treaty Law & Constitutional Practice',     series: 'DS9', description: 'In-depth examination of the Federation founding documents, interspecies treaty law, constitutional interpretation, and the legal frameworks governing member worlds.', required: ['Federation Charter & Articles of Agreement'], details: 'Prepares diplomats, JAG officers, and future Federation Council advisors.' },
+      { id: 'c27', year: 5, term: 'Master Seminar', dept: 'Operations',    optional: false, course: 'Strategic Fleet Operations & Resource Command',                series: 'DS9', description: 'Graduate seminar on starbase command, fleet logistics, resource allocation across contested regions, and the administrative infrastructure supporting deep-space operations.', required: ['Dominion War Command Analyses'], details: 'Designed for operations-track graduates pursuing senior logistics, starbase command, or fleet coordination roles.' }
+    ];
+
+    /* ── State ── */
+    const state = {
+      mode: 'Curriculum',
+      series: new Set(),
+      years: new Set(),
+      depts: new Set(),
+      evidence: 'All',
+      selectedId: null
+    };
+
+    const el = {
+      topFilters:    document.getElementById('topFilters'),
+      tableMount:    document.getElementById('tableMount'),
+      detailPane:    document.getElementById('detailPane'),
+      heroMode:      document.getElementById('heroMode'),
+      heroSelection: document.getElementById('heroSelection'),
+      statVisible:   document.getElementById('statVisible'),
+      statExplicit:  document.getElementById('statExplicit'),
+      statCourses:   document.getElementById('statCourses'),
+      statSeries:    document.getElementById('statSeries')
+    };
+
+    /* ── Helpers ── */
+    function unique(arr) { return [...new Set(arr)].sort((a,b) => String(a).localeCompare(String(b), undefined, { numeric: true })); }
+
+    function hasActiveFilters() {
+      return state.series.size > 0 || state.years.size > 0 || state.depts.size > 0 || state.evidence !== 'All';
+    }
+
+    /* ── Build controls ── */
+    function buildControls() {
+      // Row 1: mode buttons (Curriculum first) + explicit toggle + clear
+      const row1 = document.createElement('div');
+      row1.className = 'topbar-row';
+
+      ['Curriculum', 'Required Reading'].forEach(label => {
+        const btn = document.createElement('button');
+        btn.className = 'toggle';
+        btn.dataset.mode = label;
+        btn.textContent = label;
+        btn.onclick = () => { state.mode = label; state.selectedId = null; render(); };
+        row1.appendChild(btn);
+      });
+
+      const explicitBtn = document.createElement('button');
+      explicitBtn.className = 'toggle';
+      explicitBtn.dataset.explicit = '1';
+      explicitBtn.textContent = 'Explicit Only';
+      explicitBtn.onclick = () => { state.evidence = state.evidence === 'Explicit only' ? 'All' : 'Explicit only'; render(); };
+      row1.appendChild(explicitBtn);
+
+      const clearBtn = document.createElement('button');
+      clearBtn.className = 'clear-btn';
+      clearBtn.textContent = 'Clear Filters';
+      clearBtn.disabled = true;
+      clearBtn.onclick = () => { state.series = new Set(); state.years = new Set(); state.depts = new Set(); state.evidence = 'All'; render(); };
+      row1.appendChild(clearBtn);
+      el.clearBtn = clearBtn;
+
+      // Row 2: series pills + year pills (Year 5 = Master)
+      const row2 = document.createElement('div');
+      row2.className = 'topbar-row filter-row';
+
+      const seriesLabel = document.createElement('span');
+      seriesLabel.className = 'filter-label';
+      seriesLabel.textContent = 'Series';
+      row2.appendChild(seriesLabel);
+
+      ['TOS', 'TNG', 'DS9', 'VOY', 'ENT'].forEach(s => {
+        const c = SERIES_COLOR[s];
+        const btn = document.createElement('button');
+        btn.className = 'filter-pill';
+        btn.dataset.series = s;
+        btn.textContent = s;
+        btn.style.setProperty('--pill-color', c.text);
+        btn.style.setProperty('--pill-bg', c.bg);
+        btn.style.setProperty('--pill-bg-active', c.bgActive);
+        btn.style.setProperty('--pill-border', c.border);
+        btn.onclick = () => { if (state.series.has(s)) state.series.delete(s); else state.series.add(s); render(); };
+        row2.appendChild(btn);
+      });
+
+      const sep = document.createElement('span');
+      sep.className = 'filter-sep';
+      row2.appendChild(sep);
+
+      const yearLabel = document.createElement('span');
+      yearLabel.className = 'filter-label';
+      yearLabel.textContent = 'Year';
+      row2.appendChild(yearLabel);
+
+      [1, 2, 3, 4, 5].forEach(y => {
+        const c = YEAR_COLOR[y];
+        const btn = document.createElement('button');
+        btn.className = 'filter-pill';
+        btn.dataset.year = y;
+        btn.textContent = y === 5 ? 'Master' : `Year ${y}`;
+        btn.style.setProperty('--pill-color', c.text);
+        btn.style.setProperty('--pill-bg', c.bg);
+        btn.style.setProperty('--pill-bg-active', c.bgActive);
+        btn.style.setProperty('--pill-border', c.border);
+        btn.onclick = () => { if (state.years.has(y)) state.years.delete(y); else state.years.add(y); render(); };
+        row2.appendChild(btn);
+      });
+
+      // Row 3: department pills (curriculum mode only)
+      const row3 = document.createElement('div');
+      row3.className = 'topbar-row filter-row';
+      row3.id = 'deptFilterRow';
+
+      const deptLabel = document.createElement('span');
+      deptLabel.className = 'filter-label';
+      deptLabel.textContent = 'Dept';
+      row3.appendChild(deptLabel);
+
+      Object.keys(DEPT_COLOR).forEach(d => {
+        const c = DEPT_COLOR[d];
+        const btn = document.createElement('button');
+        btn.className = 'filter-pill';
+        btn.dataset.dept = d;
+        btn.textContent = d;
+        btn.style.setProperty('--pill-color', c.text);
+        btn.style.setProperty('--pill-bg', c.bg);
+        btn.style.setProperty('--pill-bg-active', c.bgActive);
+        btn.style.setProperty('--pill-border', c.border);
+        btn.onclick = () => { if (state.depts.has(d)) state.depts.delete(d); else state.depts.add(d); render(); };
+        row3.appendChild(btn);
+      });
+
+      el.topFilters.appendChild(row1);
+      el.topFilters.appendChild(row2);
+      el.topFilters.appendChild(row3);
+      el.deptFilterRow = row3;
+    }
+
+    /* ── Filters ── */
+    function filteredReading() {
+      return requiredReading.filter(item => {
+        if (state.series.size > 0 && !state.series.has(item.series)) return false;
+        if (state.years.size > 0 && !state.years.has(item.courseYear)) return false;
+        if (state.evidence === 'Explicit only' && !item.explicit) return false;
+        return true;
+      });
+    }
+
+    function filteredCurriculum() {
+      return curriculum.filter(item => {
+        if (state.series.size > 0 && !state.series.has(item.series)) return false;
+        if (state.years.size > 0 && !state.years.has(item.year)) return false;
+        if (state.depts.size > 0 && !state.depts.has(item.dept)) return false;
+        if (state.evidence === 'Explicit only') {
+          const hasExplicit = item.required.some(req => requiredReading.find(r => r.title === req && r.explicit));
+          if (!hasExplicit) return false;
+        }
+        return true;
+      });
+    }
+
+    /* ── Render filters ── */
+    function renderFilters() {
+      el.topFilters.querySelectorAll('[data-mode]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === state.mode);
+      });
+      el.topFilters.querySelectorAll('[data-explicit]').forEach(btn => {
+        btn.classList.toggle('active', state.evidence === 'Explicit only');
+      });
+      el.topFilters.querySelectorAll('[data-series]').forEach(btn => {
+        btn.classList.toggle('active', state.series.has(btn.dataset.series));
+      });
+      el.topFilters.querySelectorAll('[data-year]').forEach(btn => {
+        btn.classList.toggle('active', state.years.has(Number(btn.dataset.year)));
+      });
+      el.topFilters.querySelectorAll('[data-dept]').forEach(btn => {
+        btn.classList.toggle('active', state.depts.has(btn.dataset.dept));
+      });
+      el.deptFilterRow.style.display = state.mode === 'Curriculum' ? '' : 'none';
+      el.clearBtn.disabled = !hasActiveFilters();
+      el.heroMode.textContent = state.mode + (state.evidence === 'Explicit only' ? ' · Explicit' : '');
+    }
+
+    /* ── Render tables ── */
+    function renderReadingTable(rows) {
+      if (!rows.length) { el.tableMount.innerHTML = '<div class="empty">No records match the current filters.</div>'; return; }
+      el.tableMount.innerHTML = `
+        <table>
+          <thead><tr>
+            <th>Title</th><th>Type</th><th>Course</th><th>Series</th><th>Episode</th><th>Evidence</th><th>Year</th>
+          </tr></thead>
+          <tbody>${rows.map(r => `
+            <tr data-id="${r.id}" class="${state.selectedId === r.id ? 'selected' : ''}">
+              <td><span class="row-button" data-id="${r.id}">${r.title}</span></td>
+              <td style="color:var(--muted);font-size:.82rem">${r.type}</td>
+              <td style="font-size:.82rem;max-width:200px">${r.course}</td>
+              <td>${seriesBadge(r.series)}</td>
+              <td style="color:var(--muted);font-size:.80rem;white-space:nowrap">S${r.season}E${String(r.episode).padStart(2,'0')}<br><span style="color:var(--dim)">${r.episodeTitle}</span></td>
+              <td><span class="chip ${r.explicit ? 'explicit' : 'implied'}">${r.explicit ? 'Explicit' : 'Implied'}</span></td>
+              <td>${yearBadge(r.courseYear)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    function renderCurriculumTable(rows) {
+      if (!rows.length) { el.tableMount.innerHTML = '<div class="empty">No courses match the current filters.</div>'; return; }
+      el.tableMount.innerHTML = `
+        <table>
+          <thead><tr>
+            <th>Year</th><th>Term</th><th>Course</th><th>Dept</th><th>Anchor</th><th>Description</th><th>Required Reading</th>
+          </tr></thead>
+          <tbody>${rows.map(c => `
+            <tr data-id="${c.id}" class="${state.selectedId === c.id ? 'selected' : ''}">
+              <td>${yearBadge(c.year)}</td>
+              <td style="color:var(--muted);font-size:.82rem;white-space:nowrap">${c.term}</td>
+              <td><span class="row-button" data-id="${c.id}">${c.course}</span>${c.optional ? '<span class="elective-badge">Elective</span>' : ''}</td>
+              <td>${deptBadge(c.dept)}</td>
+              <td>${seriesBadge(c.series)}</td>
+              <td style="color:var(--muted);font-size:.82rem;max-width:200px;line-height:1.4">${c.description}</td>
+              <td style="min-width:160px">${c.required.map(r => {
+                const item = requiredReading.find(x => x.title === r);
+                return `<span class="chip ${item && item.explicit ? 'explicit' : 'implied'}" style="margin:2px 2px 2px 0;display:inline-flex">${r}</span>`;
+              }).join('')}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    /* ── Render detail pane ── */
+    function renderDetails() {
+      if (!state.selectedId) {
+        el.detailPane.innerHTML = `
+          <div class="detail-empty">
+            <svg width="48" height="60" viewBox="0 0 32 42" fill="none">
+              <path d="M16 2L30 40L16 31L2 40Z" fill="rgba(125,211,252,0.15)" stroke="rgba(125,211,252,0.40)" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <p>Select a reading item or course row to view the full record detail.</p>
+          </div>`;
+        el.heroSelection.textContent = '—';
+        return;
+      }
+
+      const item = requiredReading.find(r => r.id === state.selectedId);
+      if (item) {
+        const linkedCourses = curriculum.filter(c => c.required.includes(item.title));
+        el.detailPane.innerHTML = `
+          <div class="detail-title">${item.title}</div>
+          <div class="detail-section">
+            <div class="detail-label">Type</div>
+            <div class="detail-value muted">${item.type}</div>
+          </div>
+          <div class="detail-section" style="display:flex;gap:12px;flex-wrap:wrap">
+            <div>
+              <div class="detail-label">Series</div>
+              <div class="detail-value">${seriesBadge(item.series)}</div>
+            </div>
+            <div>
+              <div class="detail-label">Academy Year</div>
+              <div class="detail-value">${yearBadge(item.courseYear)}</div>
+            </div>
+            <div>
+              <div class="detail-label">Evidence</div>
+              <div class="detail-value"><span class="chip ${item.explicit ? 'explicit' : 'implied'}">${item.evidence}</span></div>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label">On-screen Reference</div>
+            <div class="detail-value muted">${item.series} · S${item.season}E${String(item.episode).padStart(2,'0')} · <em>${item.episodeTitle}</em></div>
+          </div>
+          <hr class="detail-divider">
+          <div class="detail-section">
+            <div class="detail-label">Description</div>
+            <div class="detail-value muted">${item.description}</div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label">Why It Belongs Here</div>
+            <div class="detail-value muted">${item.why}</div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label">Reference Note</div>
+            <div class="detail-value muted">${item.quoteNote}</div>
+          </div>
+          ${linkedCourses.length ? `
+          <hr class="detail-divider">
+          <div class="detail-label" style="margin-bottom:8px">Linked Courses</div>
+          <ul class="detail-list">${linkedCourses.map(c => `<li><strong>${c.course}</strong>${yearBadge(c.year)} · ${c.term}</li>`).join('')}</ul>` : ''}`;
+        el.heroSelection.textContent = item.title;
+        return;
+      }
+
+      const course = curriculum.find(c => c.id === state.selectedId);
+      if (course) {
+        const linkedReadings = requiredReading.filter(r => course.required.includes(r.title));
+        el.detailPane.innerHTML = `
+          <div class="detail-title">${course.course}</div>
+          <div class="detail-section" style="display:flex;gap:12px;flex-wrap:wrap">
+            <div>
+              <div class="detail-label">Placement</div>
+              <div class="detail-value">${yearBadge(course.year)} · ${course.term}</div>
+            </div>
+            <div>
+              <div class="detail-label">Series Anchor</div>
+              <div class="detail-value">${seriesBadge(course.series)}</div>
+            </div>
+          </div>
+          <hr class="detail-divider">
+          <div class="detail-section">
+            <div class="detail-label">Course Overview</div>
+            <div class="detail-value muted">${course.description}</div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label">Course Rationale</div>
+            <div class="detail-value muted">${course.details}</div>
+          </div>
+          ${linkedReadings.length ? `
+          <hr class="detail-divider">
+          <div class="detail-label" style="margin-bottom:8px">Required Reading</div>
+          <ul class="detail-list">${linkedReadings.map(r => `<li>
+            <strong>${r.title}</strong>
+            ${seriesBadge(r.series)} · S${r.season}E${String(r.episode).padStart(2,'0')} · <em>${r.episodeTitle}</em><br>
+            <span class="chip ${r.explicit ? 'explicit' : 'implied'}" style="margin-top:4px">${r.evidence}</span>
+          </li>`).join('')}</ul>` : ''}`;
+        el.heroSelection.textContent = course.course;
+      }
+    }
+
+    /* ── Wire row clicks ── */
+    function wireRowClicks() {
+      document.querySelectorAll('[data-id]').forEach(node => {
+        node.addEventListener('click', () => {
+          state.selectedId = node.dataset.id;
+          document.querySelectorAll('tbody tr').forEach(tr => tr.classList.toggle('selected', tr.dataset.id === state.selectedId));
+          renderDetails();
+        });
+      });
+    }
+
+    /* ── Stats ── */
+    function renderStats(readingRows, curriculumRows) {
+      const active = state.mode === 'Required Reading' ? readingRows : curriculumRows;
+      el.statVisible.textContent  = active.length;
+      el.statExplicit.textContent = readingRows.filter(r => r.explicit).length;
+      el.statCourses.textContent  = unique(active.map(x => x.course || x.course)).length;
+      el.statSeries.textContent   = unique(active.map(x => x.series)).length;
+    }
+
+    /* ── Main render ── */
+    function render() {
+      renderFilters();
+      const readingRows    = filteredReading();
+      const curriculumRows = filteredCurriculum();
+      if (state.mode === 'Required Reading') renderReadingTable(readingRows);
+      else renderCurriculumTable(curriculumRows);
+      if (
+        (state.mode === 'Required Reading' && !readingRows.find(r => r.id === state.selectedId)) ||
+        (state.mode === 'Curriculum'       && !curriculumRows.find(c => c.id === state.selectedId))
+      ) state.selectedId = null;
+      renderDetails();
+      wireRowClicks();
+      renderStats(readingRows, curriculumRows);
+    }
+
+    buildControls();
+    render();
+  </script>
+</body>
+</html>
