@@ -1188,7 +1188,7 @@
               <td style="color:var(--muted);font-size:.82rem">${r.type}</td>
               <td style="font-size:.82rem;max-width:200px">${r.course}</td>
               <td>${seriesBadge(r.series)}</td>
-              <td style="color:var(--muted);font-size:.80rem;white-space:nowrap">S${r.season}E${String(r.episode).padStart(2,'0')}<br><span style="color:var(--dim)">${r.episodeTitle}</span></td>
+              <td style="color:var(--muted);font-size:.80rem;white-space:nowrap">${r.season != null ? `S${r.season}E${String(r.episode).padStart(2,'0')}<br>` : ''}<span style="color:var(--dim)">${r.episodeTitle}</span></td>
               <td><span class="chip ${r.explicit ? 'explicit' : 'implied'}">${r.explicit ? 'Explicit' : 'Implied'}</span></td>
               <td>${yearBadge(r.courseYear)}</td>
             </tr>`).join('')}
@@ -1259,7 +1259,7 @@
           </div>
           <div class="detail-section">
             <div class="detail-label">On-screen Reference</div>
-            <div class="detail-value muted">${item.series} · S${item.season}E${String(item.episode).padStart(2,'0')} · <em>${item.episodeTitle}</em></div>
+            <div class="detail-value muted">${item.series}${item.season != null ? ` · S${item.season}E${String(item.episode).padStart(2,'0')}` : ''} · <em>${item.episodeTitle}</em></div>
           </div>
           <hr class="detail-divider">
           <div class="detail-section">
@@ -1311,7 +1311,7 @@
           <div class="detail-label" style="margin-bottom:8px">Required Reading</div>
           <ul class="detail-list">${linkedReadings.map(r => `<li>
             <strong>${r.title}</strong>
-            ${seriesBadge(r.series)} · S${r.season}E${String(r.episode).padStart(2,'0')} · <em>${r.episodeTitle}</em><br>
+            ${seriesBadge(r.series)}${r.season != null ? ` · S${r.season}E${String(r.episode).padStart(2,'0')}` : ''} · <em>${r.episodeTitle}</em><br>
             <span class="chip ${r.explicit ? 'explicit' : 'implied'}" style="margin-top:4px">${r.evidence}</span>
           </li>`).join('')}</ul>` : ''}`;
         el.heroSelection.textContent = course.course;
